@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Card, Container, Form } from 'react-bootstrap';
+import { Button, Card, Container, Form } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { useGetDoctorsQuery } from '../../../../features/sigmaApi';
 import './DoctorProfile.css';
+import Swal from 'sweetalert2'
 
 const DoctorProfile = () => {
     const { id } = useParams();
     const alldoctorInfo = useGetDoctorsQuery();
     const [singleDoctorInfo, setSingleDoctorInfo] = useState([]);
     const [doctorUpdateData, setDoctorUpdateData] = useState({});
-    const [success, setSuccess] = useState(false);
     const [image, setImage] = useState(null);
 
     useEffect(() => {
@@ -45,7 +45,11 @@ const DoctorProfile = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.modifiedCount > 0) {
-                    setSuccess(true);
+                    Swal.fire(
+                        'Good job!',
+                        "Update Doctor's informatoin Successfully!",
+                        'success'
+                    )
                 }
             })
     }
@@ -54,7 +58,6 @@ const DoctorProfile = () => {
         <div style={{ backgroundColor: "#F4F7F6", padding: "20px 0" }}>
             <Container>
                 <div className='row'>
-                    {success && <Alert variant="success">Update Successfully!</Alert>}
                     <div className='col-12 col-sm-6 col-md-6 col-lg-4'>
                         <Card className="text-center card-control2">
                             <Card.Img className="w-50 mx-auto rounded-circle mt-3" variant="top" src={`data:image/*;base64,${singleDoctorInfo?.photo}`} />
@@ -145,7 +148,7 @@ const DoctorProfile = () => {
                                                     name="photo"
                                                     type="file"
                                                     onChange={e => setImage(e.target.files[0])}
-                                                    required
+                                                    defaultValue={singleDoctorInfo?.photo}
                                                 />
                                             </Form.Group>
                                             <Form.Group className="mb-3">
@@ -326,6 +329,7 @@ const DoctorProfile = () => {
                                             name="title"
                                             type="text"
                                             onBlur={handleUpdateDoctor}
+                                            defaultValue={singleDoctorInfo?.title}
                                             required
                                         />
                                     </Form.Group>
@@ -338,6 +342,7 @@ const DoctorProfile = () => {
                                             name="description"
                                             type="text"
                                             onBlur={handleUpdateDoctor}
+                                            defaultValue={singleDoctorInfo?.description}
                                             required
                                         />
                                     </Form.Group>
@@ -348,6 +353,7 @@ const DoctorProfile = () => {
                                                     className='text-secondary'
                                                     name="day"
                                                     onBlur={handleUpdateDoctor}
+                                                    defaultValue={singleDoctorInfo?.day}
                                                     required
                                                     aria-label="Default select example"
                                                 >
@@ -364,6 +370,7 @@ const DoctorProfile = () => {
                                                     className='text-secondary'
                                                     name="time"
                                                     onBlur={handleUpdateDoctor}
+                                                    defaultValue={singleDoctorInfo?.time}
                                                     required
                                                     aria-label="Default select example"
                                                 >
@@ -380,6 +387,7 @@ const DoctorProfile = () => {
                                                     className='text-secondary'
                                                     name="shift"
                                                     onBlur={handleUpdateDoctor}
+                                                    defaultValue={singleDoctorInfo?.shift}
                                                     required
                                                     aria-label="Default select example"
                                                 >
@@ -399,6 +407,7 @@ const DoctorProfile = () => {
                                                         className='text-secondary'
                                                         name="skill1"
                                                         onBlur={handleUpdateDoctor}
+                                                        defaultValue={singleDoctorInfo?.skill1}
                                                         required
                                                         aria-label="Default select example"
                                                     >
@@ -415,6 +424,7 @@ const DoctorProfile = () => {
                                                         className='text-secondary'
                                                         placeholder="Percentage. Ex - 80"
                                                         name="percent1"
+                                                        defaultValue={singleDoctorInfo?.percent1}
                                                         type="number"
                                                         onBlur={handleUpdateDoctor}
                                                         required
@@ -431,6 +441,7 @@ const DoctorProfile = () => {
                                                         className='text-secondary'
                                                         name="skill2"
                                                         onBlur={handleUpdateDoctor}
+                                                        defaultValue={singleDoctorInfo?.skill2}
                                                         required
                                                         aria-label="Default select example"
                                                     >
@@ -449,6 +460,7 @@ const DoctorProfile = () => {
                                                         name="percent2"
                                                         type="number"
                                                         onBlur={handleUpdateDoctor}
+                                                        defaultValue={singleDoctorInfo?.percent2}
                                                         required
                                                     />
                                                 </Form.Group>
@@ -463,6 +475,7 @@ const DoctorProfile = () => {
                                                         className='text-secondary'
                                                         name="skill3"
                                                         onBlur={handleUpdateDoctor}
+                                                        defaultValue={singleDoctorInfo?.skill3}
                                                         required
                                                         aria-label="Default select example"
                                                     >
@@ -481,6 +494,7 @@ const DoctorProfile = () => {
                                                         name="percent3"
                                                         type="number"
                                                         onBlur={handleUpdateDoctor}
+                                                        defaultValue={singleDoctorInfo?.percent3}
                                                         required
                                                     />
                                                 </Form.Group>
@@ -496,6 +510,7 @@ const DoctorProfile = () => {
                                             name="moto"
                                             type="text"
                                             onBlur={handleUpdateDoctor}
+                                            defaultValue={singleDoctorInfo?.moto}
                                             required
                                         />
                                     </Form.Group>
@@ -508,7 +523,6 @@ const DoctorProfile = () => {
                                         type='reset'
                                     >Reset</Button>
                                 </Form>
-                                <Alert className='mt-3' variant='warning'>*Please press each input section before pressing submit button*</Alert>
                             </Card.Body>
                         </Card>
 
